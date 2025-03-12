@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 5f;
     private Vector2 minBounds;
     private Vector2 maxBounds;
+    Animator ani;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour
 
         minBounds = new Vector2(bottomLeft.x, bottomLeft.y);
         maxBounds = new Vector2(topRight.x, topRight.y);
+
+        ani = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -24,9 +27,32 @@ public class Player : MonoBehaviour
     {
         float moveX = moveSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
         float moveY = moveSpeed * Time.deltaTime * Input.GetAxis("Vertical");
-
+        if (Input.GetAxis("Horizontal") <= -0.5f)
+        {
+            ani.SetBool("left", true);
+        }
+        else
+        {
+            ani.SetBool("left", false);
+        }
+        if (Input.GetAxis("Horizontal") >= 0.5f)
+        {
+            ani.SetBool("right", true);
+        }
+        else
+        {
+            ani.SetBool("right", false);
+        }
+        if (Input.GetAxis("Vertical") >= 0.5f)
+        {
+            ani.SetBool("up", true);
+        }
+        else
+        {
+            ani.SetBool("up", false);
+        }
         //transform.Translate(moveX, moveY, 0);
-        
+
         Vector3 newPosition = transform.position + new Vector3(moveX, moveY, 0);
         // 경계를 벗어나지 않도록 위치 제한
         newPosition.x = Mathf.Clamp(newPosition.x, minBounds.x, maxBounds.x);
