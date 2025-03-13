@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -6,6 +7,13 @@ public class Player : MonoBehaviour
     private Vector2 minBounds;
     private Vector2 maxBounds;
     Animator ani;
+    public GameObject[] Bullet = new GameObject[4]; // 추후 4개 배열로 만들 예정
+    int power = 0;
+    public Transform pos = null;
+
+    //아이템
+    public GameObject Item_Power;
+    //레이저
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,6 +28,19 @@ public class Player : MonoBehaviour
         maxBounds = new Vector2(topRight.x, topRight.y);
 
         ani = GetComponent<Animator>();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            
+            power++;
+            if (power >= 3)
+            {
+                power = 3;
+            }
+            Destroy(collision.gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -52,6 +73,13 @@ public class Player : MonoBehaviour
             ani.SetBool("up", false);
         }
         //transform.Translate(moveX, moveY, 0);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //프리팹 위치 방향 넣고 생성
+            Instantiate(Bullet[power], pos.position, Quaternion.identity);
+        }
+
 
         Vector3 newPosition = transform.position + new Vector3(moveX, moveY, 0);
         // 경계를 벗어나지 않도록 위치 제한
