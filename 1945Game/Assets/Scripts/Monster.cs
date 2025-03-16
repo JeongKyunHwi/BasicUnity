@@ -33,13 +33,24 @@ public class Monster : MonoBehaviour
 
         
     }
-    private void OnDestroy()
+    //private void OnDestroy()
+    //{
+    //    Instantiate(Item_Power, transform.position, Quaternion.identity);
+    //}
+
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
+
+    public void ItemDrop()
     {
         Instantiate(Item_Power, transform.position, Quaternion.identity);
     }
 
-    private void OnBecameInvisible()
+    public void Damage(int att)
     {
+        ItemDrop();
         Destroy(gameObject);
     }
 

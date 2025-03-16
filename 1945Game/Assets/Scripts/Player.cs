@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
             {
                 power = 3;
             }
+            collision.gameObject.GetComponent<Item>().Effect();
             Destroy(collision.gameObject);
         }
     }

@@ -5,7 +5,8 @@ public class Item : MonoBehaviour
     //아이템 가속
     public float ItemVelocity = 20f;
     Rigidbody2D rig = null;
-    public GameObject effect;
+    [SerializeField]
+    private GameObject effect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -13,12 +14,13 @@ public class Item : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         rig.AddForce(new Vector3(ItemVelocity, ItemVelocity, 0f));
     }
-
-    private void OnDestroy()
+    public void Effect()
     {
         GameObject go = Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(go, 0.5f);
     }
+
+    
     // Update is called once per frame
     void Update()
     {
