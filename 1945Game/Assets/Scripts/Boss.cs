@@ -11,9 +11,16 @@ public class Boss : MonoBehaviour
     public Transform pos1;
     public Transform pos2;
 
+
+
+    void Hide()
+    {
+        GameObject.Find("TextBossWarning").SetActive(false);
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Invoke("Hide", 2);
         StartCoroutine(BossMissile());
         StartCoroutine(CircleFire());
     }
@@ -67,7 +74,7 @@ public class Boss : MonoBehaviour
         }
 
     }
-
+    
     // Update is called once per frame
     void Update()
     {

@@ -10,11 +10,13 @@ public class Player : MonoBehaviour
     public GameObject[] Bullet = new GameObject[4]; // 추후 4개 배열로 만들 예정
     int power = 0;
     public Transform pos = null;
+    
 
     //아이템
     public GameObject Item_Power;
     //레이저
-
+    public GameObject Lazer;
+    public float gValue = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -80,9 +82,27 @@ public class Player : MonoBehaviour
             //프리팹 위치 방향 넣고 생성
             Instantiate(Bullet[power], pos.position, Quaternion.identity);
         }
+        else if (Input.GetKey(KeyCode.Space))
+        {
+            gValue += Time.deltaTime;
 
+            if(gValue >= 1)
+            {
+                GameObject go = Instantiate(Lazer, pos.position, Quaternion.identity);
+                Destroy(go, 1.3f);
+                gValue = 0;
+            }
+        }
+        else
+        {
+            gValue -= Time.deltaTime;
+            if(gValue <= 0)
+            {
+                gValue = 0;
+            }
+        }
 
-        Vector3 newPosition = transform.position + new Vector3(moveX, moveY, 0);
+            Vector3 newPosition = transform.position + new Vector3(moveX, moveY, 0);
         // 경계를 벗어나지 않도록 위치 제한
         newPosition.x = Mathf.Clamp(newPosition.x, minBounds.x, maxBounds.x);
         newPosition.y = Mathf.Clamp(newPosition.y, minBounds.y, maxBounds.y);
