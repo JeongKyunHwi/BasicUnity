@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour
     //·¹ÀÌÀú
     public GameObject Lazer;
     public float gValue = 0;
+
+    public Image Gage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -85,12 +88,13 @@ public class Player : MonoBehaviour
         else if (Input.GetKey(KeyCode.Space))
         {
             gValue += Time.deltaTime;
-
+            Gage.fillAmount = gValue;
             if(gValue >= 1)
             {
                 GameObject go = Instantiate(Lazer, pos.position, Quaternion.identity);
                 Destroy(go, 1.3f);
                 gValue = 0;
+                
             }
         }
         else
@@ -100,6 +104,7 @@ public class Player : MonoBehaviour
             {
                 gValue = 0;
             }
+            Gage.fillAmount = gValue;
         }
 
             Vector3 newPosition = transform.position + new Vector3(moveX, moveY, 0);
