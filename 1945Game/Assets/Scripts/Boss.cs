@@ -23,6 +23,7 @@ public class Boss : MonoBehaviour
         Invoke("Hide", 2);
         StartCoroutine(BossMissile());
         StartCoroutine(CircleFire());
+        
     }
     IEnumerator BossMissile()
     {

@@ -20,10 +20,11 @@ public class Player : MonoBehaviour
     public float gValue = 0;
 
     public Image Gage;
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         //화면 경계를 설정
         Camera cam = Camera.main;
         Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Gage.transform.position = transform.position + new Vector3(0,0,0);
         float moveX = moveSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
         float moveY = moveSpeed * Time.deltaTime * Input.GetAxis("Vertical");
         if (Input.GetAxis("Horizontal") <= -0.5f)
