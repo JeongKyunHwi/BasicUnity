@@ -23,6 +23,18 @@ public class Player : MonoBehaviour
     Rigidbody2D pRig2D;
     SpriteRenderer sp;
 
+    public GameObject Jumpdust;
+
+    //벽점프
+    public Transform wallChk;
+    public float wallchkDistance;
+    public LayerMask wLayer;
+    bool isWall;
+    public float slidingSpeed;
+    public float wallJumpPower;
+    public bool isWallJump;
+    float isRight = 1;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +53,10 @@ public class Player : MonoBehaviour
             //left
             sp.flipX = true;
             pAnimator.SetBool("Run", true);
+
+            //점프 벽잡기 방향
+            isRight = -1;
+
             //Shadow flip
             for (int i = 0; i < sh.Count; i++)
             {
@@ -52,6 +68,10 @@ public class Player : MonoBehaviour
             //right
             sp.flipX = false;
             pAnimator.SetBool("Run", true);
+
+            //점프 벽잡기 방향
+            isRight = 1;
+
             for(int i =0; i<sh.Count; i++)
             {
                 sh[i].GetComponent<SpriteRenderer>().flipX = sp.flipX;
@@ -78,18 +98,53 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        KeyInput();
-        Move();
+        if (!isWallJump)
+        {
+            KeyInput();
+            Move();
+        }
+        
+
+        //벽인지 체크
+        isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, wLayer);
+        pAnimator.SetBool("Grab", isWall);
 
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (pAnimator.GetBool("Jump") == false)
             {
+                
                 Jump();
                 pAnimator.SetBool("Jump", true);
+                JumpDust();
+            }
+        }
+        if (isWall)
+        {
+            isWallJump = false;
+            //벽 점프 상태
+            pRig2D.linearVelocity = new Vector2(pRig2D.linearVelocityX, pRig2D.linearVelocityY*slidingSpeed);
+
+            //벽을 잡고있는 상태에서 점프
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                isWallJump = true;
+                //벽 점프 먼지
+
+                Invoke("FreezeX", 0.3f);
+                //물리
+                pRig2D.linearVelocity = new Vector2(-isRight * wallJumpPower, 0.9f * wallJumpPower);
+
+                sp.flipX = sp.flipX == false ? true : false;
+                isRight = -isRight;
             }
         }
     }
+    void FreezeX()
+    {
+        isWallJump = false;
+    }
+
 
     private void FixedUpdate()
     {
@@ -153,5 +208,23 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
+    public void LandDust(GameObject dust)
+    {
+        Instantiate(dust, transform.position+ new Vector3(-0.09f,-0.42f,0), Quaternion.identity);
+    }
+
+    public void JumpDust()
+    {
+        Instantiate(Jumpdust, transform.position, Quaternion.identity);
+    }
+
+    //벽 점프
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallchkDistance);
+    }
 
 }
