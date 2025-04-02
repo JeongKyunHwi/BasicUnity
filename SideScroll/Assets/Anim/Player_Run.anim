@@ -100,7 +100,7 @@ AnimationClip:
   - time: 0.083333336
     functionName: RunShadow
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 4968853040325522497, guid: 8fb1458d811c2e3409386b25f9affd23, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

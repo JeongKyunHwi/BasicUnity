@@ -80,14 +80,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: RunShadow
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
-    functionName: LandDust
+    functionName: RandDust
     data: 
     objectReferenceParameter: {fileID: 4968853040325522497, guid: 8fb1458d811c2e3409386b25f9affd23, type: 3}
     floatParameter: 0
